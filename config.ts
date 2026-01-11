@@ -2,7 +2,7 @@ export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 40,
+    generations: 50,
   } as const;
 
   export const DIR = import.meta.dir;
@@ -27,13 +27,41 @@ export namespace Config {
     z_image_turbo: {
       model: "filipstrand/Z-Image-Turbo-mflux-4bit",
       base: "turbo",
-      steps: 12,
+      steps: 8,
     },
   } as const;
 
   export const LORAS = {
-    pencil_sketch: "Ttio2/Z-Image-Turbo-pencil-sketch",
-    digital_art: "bunnycore/Z-Art-2.1",
-    pixel_art: "tarn59/pixel_art_style_lora_z_image_turbo",
+    pencil_sketch: {
+      name: "Ttio2/Z-Image-Turbo-pencil-sketch",
+      trigger: "pencil sketch",
+    },
+
+    digital_art: {
+      name: "bunnycore/Z-Art-2.1:Z-Art-3.safetensors",
+      trigger: "digital art",
+    },
+    pixel_art: {
+      name: "tarn59/pixel_art_style_lora_z_image_turbo",
+      trigger: "Pixel art style.",
+    },
+    behind_glass: {
+      name: "Quorlen/Z-Image-Turbo-Behind-Reeded-Glass-Lora",
+      trigger: "Act1vate!",
+    },
+    classic_painting: {
+      name: "renderartist/Classic-Painting-Z-Image-Turbo-LoRA",
+      trigger: "class1cpa1nt",
+    },
+    anime_z: { name: "strangerzonehf/Anime-Z", trigger: "Anime-Z" },
+    technically_color: {
+      name: "renderartist/Technically-Color-Z-Image-Turbo",
+      trigger: "t3chnic4lly",
+    },
   } as const;
 }
+
+export type Lora = {
+  name: string;
+  trigger: string;
+};

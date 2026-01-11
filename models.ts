@@ -5,10 +5,10 @@ import { logger } from "./logger";
 type Model = {
   prompt: string;
   filename: string;
-  count: number;
+  count: string;
   lora?: {
-    paths: (typeof Config.LORAS)[keyof typeof Config.LORAS][];
-    scales: number[];
+    paths: string[];
+    scales: string[];
   };
 };
 
@@ -89,19 +89,20 @@ export namespace Model {
 
   export namespace Z_IMAGE_TURBO {
     export async function run({ prompt, filename, count, lora }: Model) {
-      const meta = `_${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
+      const meta = `${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
       const out = `${DIR}/images/${z_image_turbo.base}/${filename}_${count}_${meta}`;
       const upscaled = `${DIR}/images/upscaled/${z_image_turbo.base}/${filename}_${count}_${meta}`;
 
       guard({ lora });
 
+      // TODO: LoRA free version
       await Bun.$`
        mflux-generate-z-image-turbo \
         --model ${z_image_turbo.model} \
         --prompt "${prompt}" \
         --output "${out}" \
-        --lora-paths ${lora?.paths.join(" ") ?? ""} \
-        --lora-scales ${lora?.scales.join(" ") ?? ""} \
+        --lora-paths ${lora?.paths} \
+        --lora-scales ${lora?.scales} \
         --width ${IMAGE.width} \
         --height ${IMAGE.height} \
         --steps ${z_image_turbo.steps}
