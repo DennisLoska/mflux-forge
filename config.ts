@@ -2,10 +2,12 @@ export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 50,
+    generations: 10,
   } as const;
 
   export const DIR = import.meta.dir;
+  export const LOCAL_LLM_API = "http://127.0.0.1:1234/v1/responses";
+  export const LOCAL_MODEL = "qwen/qwen3-vl-4b";
 
   export const LLM = {
     minimax_m2_1_free: "opencode/minimax-m2.1-free",

@@ -29,12 +29,12 @@ export namespace Prompt {
 
   ${JSON.stringify(Style.styles)}
 
-  Examples scenes to use:
+  Examples scenes for reference only:
 
   ${JSON.stringify(Style.scenes)}
 
-  Use these as examples or use them directly, but come up with a good variety of different styles for the
-  list of prompts.
+  Use these as examples as reference, but do not use these exact examples word for word.
+  Instead come up with a new variety of different scenes for the list of prompts.
 
   Tips:
   - Front-load the most important elements (subject + medium first)

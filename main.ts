@@ -4,6 +4,7 @@ import { Config } from "./config";
 import { logger } from "./logger";
 import { Loras } from "./lora";
 import { Prompt } from "./prompt";
+import { Api } from "./api";
 
 const BENCHMARK = false;
 const date = new Date().getTime();
@@ -49,7 +50,8 @@ async function main() {
   let prompts;
   try {
     logger.info("Generating image prompts:\n");
-    await Bun.$`opencode run -m ${LLM} "${INSTRUCTIONS}"`;
+    // await Api.opencode(LLM, INSTRUCTIONS);
+    const res = await Api.local_llm(INSTRUCTIONS);
     const file = Bun.file(`./prompts/${date}.txt`);
     prompts = await file.text();
     logger.info("\nGenerated prompts:\n");
