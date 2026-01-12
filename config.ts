@@ -1,5 +1,10 @@
 const date = new Date().getTime();
 
+export type Lora = {
+  name: string;
+  trigger: string;
+};
+
 export namespace Config {
   export const IMAGE = {
     width: 1280,
@@ -65,8 +70,3 @@ export namespace Config {
     },
   } as const;
 }
-
-export type Lora = {
-  name: string;
-  trigger: string;
-};

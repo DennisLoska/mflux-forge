@@ -29,8 +29,13 @@ export namespace Model {
   }
 
   export async function upscale(input: string, output: string) {
-    logger.info(`\nUpscaling image: ${input}\n`);
-    await Bun.$`upscale ${input} ${output}`;
+    try {
+      logger.info(`\nUpscaling image: ${input}\n`);
+      await Bun.$`upscale ${input} ${output}`;
+    } catch (error) {
+      logger.error("Error", { error: error?.message });
+      return null;
+    }
   }
 
   export namespace FLUX_SCHNELL {
@@ -41,7 +46,8 @@ export namespace Model {
 
       guard({ lora });
 
-      await Bun.$`
+      try {
+        await Bun.$`
         mflux-generate \
           --model ${flux_schnell.model} \
           --base-model ${flux_schnell.base} \
@@ -51,6 +57,10 @@ export namespace Model {
           --height ${IMAGE.height} \
           --steps ${flux_schnell.steps}
       `;
+      } catch (error) {
+        logger.error("Error", { error: error?.message });
+        return null;
+      }
 
       return {
         path: out,
@@ -68,7 +78,8 @@ export namespace Model {
 
       guard({ lora });
 
-      await Bun.$`
+      try {
+        await Bun.$`
         mflux-generate \
           --model ${flux_dev.model} \
           --base-model ${flux_dev.base} \
@@ -78,6 +89,10 @@ export namespace Model {
           --height ${IMAGE.height} \
           --steps ${flux_dev.steps}
       `;
+      } catch (error) {
+        logger.error("Error", { error: error?.message });
+        return null;
+      }
 
       return {
         path: out,
@@ -89,14 +104,15 @@ export namespace Model {
 
   export namespace Z_IMAGE_TURBO {
     export async function run({ prompt, filename, count, lora }: Model) {
-      const meta = `${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
-      const out = `${DIR}/images/${z_image_turbo.base}/${filename}_${count}_${meta}`;
-      const upscaled = `${DIR}/images/upscaled/${z_image_turbo.base}/${filename}_${count}_${meta}`;
+      const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
+      const out = `${DIR}/images/${z_image_turbo.base}/${filename}_${meta}`;
+      const upscaled = `${DIR}/images/upscaled/${z_image_turbo.base}/${filename}_${meta}`;
 
       guard({ lora });
 
-      // TODO: LoRA free version
-      await Bun.$`
+      try {
+        // TODO: LoRA free version
+        await Bun.$`
        mflux-generate-z-image-turbo \
         --model ${z_image_turbo.model} \
         --prompt "${prompt}" \
@@ -107,6 +123,10 @@ export namespace Model {
         --height ${IMAGE.height} \
         --steps ${z_image_turbo.steps}
       `;
+      } catch (error) {
+        logger.error("Error", { error: error?.message });
+        return null;
+      }
 
       return {
         path: out,
