@@ -2,8 +2,12 @@ import { Config } from "./config";
 
 export namespace Prompt {
   export function system(
-    Style: { primary: string; styles: string[]; scenes: string[] },
-    triggers: string,
+    Style: {
+      primary: string;
+      secondary: string;
+      styles: string[];
+      scenes: string[];
+    },
     date: number,
   ) {
     return `
@@ -21,7 +25,7 @@ export namespace Prompt {
   Keeping aforementioned instructions in mind reate the image generation prompts for me by using
   the following instructions as a template:
 
-  [primary style: ${Style.primary} secondary styles: ${triggers}] [subject & focal point], [setting & composition], [painting type] on [paper type],
+  [primary style: ${Style.primary} secondary styles: ${Style.secondary}] [subject & focal point], [setting & composition], [painting type] on [paper type],
   [light & atmosphere], [palette], [techniques & edges], [mood adjectives], subtle paper texture,
   tasteful white margins, minimalist, print-ready
 

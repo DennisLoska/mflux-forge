@@ -9,12 +9,6 @@ import { Api } from "./api";
 const BENCHMARK = false;
 const date = new Date().getTime();
 
-const Style = {
-  primary: "watercolor",
-  styles: Styles.watercolor_styles,
-  scenes: Styles.biblical_events,
-};
-
 const { LORAS } = Config;
 const loras = [LORAS.pencil_sketch];
 // const scales = Loras.scales(loras);
@@ -22,15 +16,22 @@ const scales = Loras.identity("0.7");
 const triggers = Loras.triggers(loras);
 const paths = Loras.paths(loras);
 
+const Style = {
+  primary: "watercolor",
+  secondary: triggers,
+  styles: Styles.watercolor_styles,
+  scenes: Styles.biblical_events,
+};
+
 const LLM = Config.LLM.minimax_m2_1_free;
-const INSTRUCTIONS = Prompt.system(Style, triggers, date);
+const INSTRUCTIONS = Prompt.system(Style, date);
 
 async function main() {
   if (BENCHMARK) {
     try {
       for (let i = 0; i < scales.length; i++) {
         const res = await Model.Z_IMAGE_TURBO.run({
-          prompt: `${Style.primary} ${triggers} Christ in the desert`,
+          prompt: `The fractal golden lotus flower`,
           filename: "benchmark.png",
           count: `${i}_${scales?.[i]?.[0]}_${scales?.[i]?.[1]}`,
           lora: {
@@ -41,7 +42,7 @@ async function main() {
         await Model.upscale(res.path, res.upscaled_path);
       }
     } catch (error) {
-      logger.error("Error", { error });
+      logger.error("Error", { error: error?.message });
     } finally {
       process.exit(0);
     }
@@ -50,14 +51,14 @@ async function main() {
   let prompts;
   try {
     logger.info("Generating image prompts:\n");
-    // await Api.opencode(LLM, INSTRUCTIONS);
-    const res = await Api.local_llm(INSTRUCTIONS);
+    await Api.opencode(LLM, INSTRUCTIONS);
+    // const res = await Api.local_llm(INSTRUCTIONS);
     const file = Bun.file(`./prompts/${date}.txt`);
     prompts = await file.text();
     logger.info("\nGenerated prompts:\n");
     logger.info(prompts);
   } catch (error) {
-    logger.error("Error", { error });
+    logger.error("Error", { error: error?.message });
     process.exit(1);
   }
 

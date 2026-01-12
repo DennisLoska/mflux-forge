@@ -2,7 +2,7 @@ export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 10,
+    generations: 24,
   } as const;
 
   export const DIR = import.meta.dir;
@@ -29,7 +29,7 @@ export namespace Config {
     z_image_turbo: {
       model: "filipstrand/Z-Image-Turbo-mflux-4bit",
       base: "turbo",
-      steps: 8,
+      steps: 12,
     },
   } as const;
 
