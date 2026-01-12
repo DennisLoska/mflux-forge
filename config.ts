@@ -1,10 +1,13 @@
+const date = new Date().getTime();
+
 export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 24,
+    generations: 5,
   } as const;
 
+  export const now = date;
   export const DIR = import.meta.dir;
   export const LOCAL_LLM_API = "http://127.0.0.1:1234/v1/responses";
   export const LOCAL_MODEL = "qwen/qwen3-vl-4b";
