@@ -19,7 +19,7 @@ export namespace Prompt {
   FOR ALL PROMPTS ALWAYS:
   ${options.description}
 
-  Keeping aforementioned instructions in mind reate the image generation prompts for me by using
+  Keeping aforementioned instructions in mind create the image generation prompts for me by using
   the following instructions as a template:
 
   [primary style: ${options.style.primary} secondary styles: ${options.style.secondary}] [subject & focal point], [setting & composition], [painting type] on [paper type],
@@ -34,7 +34,7 @@ export namespace Prompt {
 
   ${JSON.stringify(options.scenes)}
 
-  Use these as examples as reference, but do not use these exact examples word for word.
+  Use these examples as reference, but do not use these exact examples word for word.
   Instead come up with a new variety of different scenes for the list of prompts.
 
   Tips:
