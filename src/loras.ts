@@ -1,4 +1,4 @@
-import { Config, type Lora } from "./config";
+import { Config, type Lora } from "../config";
 
 export namespace Loras {
   const single: string[][] = [
