@@ -64,7 +64,7 @@ async function main() {
     const res = await Api.opencode(LLM, instruction);
     if (res === null) continue;
 
-    const file = Bun.file(`src/prompts/${Config.now}.txt`);
+    const file = Bun.file(`..//prompts/${Config.now}.txt`);
     prompts = await file.text();
 
     logger.info("\nGenerated prompts:\n");

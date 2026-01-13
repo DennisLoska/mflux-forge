@@ -35,4 +35,16 @@ export namespace Api {
       return null;
     }
   }
+
+  export async function generate_video() {
+    try {
+      // TODO define: root directory, order of images
+      await Bun.$`
+        ffmpeg -pattern_type glob -i '*.png' -vf "scale=8000:-1,zoompan=z='min(zoom+0.0005,1.5)':d=850:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1920x1080,framerate=30" -c:v libx264 -pix_fmt yuv420p output.mp4
+      `;
+    } catch (error) {
+      logger.error("Error", { error: error?.message });
+      return null;
+    }
+  }
 }
