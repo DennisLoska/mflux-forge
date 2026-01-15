@@ -1,44 +1,25 @@
-import { Config, type Lora } from "../config";
+import { type Lora } from "../config";
 
 export namespace Loras {
-  const single: string[][] = [
-    ["0.1"],
-    ["0.2"],
-    ["0.3"],
-    ["0.4"],
-    ["0.5"],
-    ["0.6"],
-    ["0.7"],
-    ["0.8"],
-    ["0.9"],
-    ["1.0"],
+  const steps = [
+    "0.0",
+    "0.1",
+    "0.2",
+    "0.3",
+    "0.4",
+    "0.5",
+    "0.6",
+    "0.7",
+    "0.8",
+    "0.9",
+    "1.0",
   ];
 
-  const double: string[][] = [
-    ["0.1", "0.1"],
-    ["0.2", "0.2"],
-    ["0.3", "0.3"],
-    ["0.4", "0.4"],
-    ["0.5", "0.5"],
-    ["0.6", "0.4"],
-    ["0.7", "0.3"],
-    ["0.8", "0.2"],
-    ["0.9", "0.1"],
-    ["1.0", "0.0"],
-    ["0.0", "1.0"],
-    ["0.1", "0.9"],
-    ["0.2", "0.8"],
-    ["0.3", "0.7"],
-    ["0.4", "0.6"],
-  ];
+  const single: string[][] = [...steps.map((n) => [n])];
+  const double: string[][] = steps.flatMap((v1) => steps.map((v2) => [v1, v2]));
 
   export function identity(scale: string) {
-    const identity = [];
-    for (let i = 0; i < Config.IMAGE.generations; i++) {
-      identity.push([scale]);
-    }
-
-    return identity;
+    return [[scale]];
   }
 
   export function triggers(loras: Lora[]) {

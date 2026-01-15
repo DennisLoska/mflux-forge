@@ -1,8 +1,18 @@
 import { Config } from "../config";
 import assert from "node:assert";
-import { logger } from "./logger";
+import { Logger } from "./logger";
 
-type Model = {
+const { logger } = Logger;
+
+export interface ModelRunner {
+  run: (options: Params) => Promise<{
+    path: string;
+    filename: string;
+    upscaled_path: string;
+  } | null>;
+}
+
+type Params = {
   prompt: string;
   filename: string;
   count: string;
@@ -19,7 +29,7 @@ export namespace Model {
     DIR,
   } = Config;
 
-  function guard(item: { lora: Model["lora"] }) {
+  function guard(item: { lora: Params["lora"] }) {
     if (item.lora) {
       assert(
         item.lora.paths.length === item.lora.scales.length,
@@ -38,8 +48,8 @@ export namespace Model {
     }
   }
 
-  export namespace FLUX_SCHNELL {
-    export async function run({ prompt, filename, count, lora }: Model) {
+  export const FLUX_SCHNELL: ModelRunner = {
+    run: async ({ prompt, filename, count, lora }: Params) => {
       const meta = `_${IMAGE.width}_${IMAGE.height}_${flux_schnell.steps}.png`;
       const out = `${DIR}/images/${flux_schnell.base}/${filename}_${count}_${meta}`;
       const upscaled = `${DIR}/images/upscaled/${flux_schnell.base}/${filename}_${count}_${meta}`;
@@ -67,11 +77,11 @@ export namespace Model {
         filename: `${filename}_${count}_${meta}`,
         upscaled_path: upscaled,
       } as const;
-    }
-  }
+    },
+  };
 
-  export namespace FLUX_DEV {
-    export async function run({ prompt, filename, count, lora }: Model) {
+  export const FLUX_DEV: ModelRunner = {
+    run: async ({ prompt, filename, count, lora }: Params) => {
       const meta = `_${IMAGE.width}_${IMAGE.height}_${flux_dev.steps}.png`;
       const out = `${DIR}/images/${flux_dev.base}/${filename}_${count}_${meta}`;
       const upscaled = `${DIR}/images/upscaled/${flux_dev.base}/${filename}_${count}_${meta}`;
@@ -99,11 +109,11 @@ export namespace Model {
         filename: `${filename}_${count}_${meta}`,
         upscaled_path: upscaled,
       } as const;
-    }
-  }
+    },
+  };
 
-  export namespace Z_IMAGE_TURBO {
-    export async function run({ prompt, filename, count, lora }: Model) {
+  export const Z_IMAGE_TURBO: ModelRunner = {
+    run: async ({ prompt, filename, count, lora }: Params) => {
       const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
       const out = `${DIR}/images/${z_image_turbo.base}/${filename}_${meta}`;
       const upscaled = `${DIR}/images/upscaled/${z_image_turbo.base}/${filename}_${meta}`;
@@ -133,6 +143,6 @@ export namespace Model {
         filename: `${filename}_${count}_${meta}`,
         upscaled_path: upscaled,
       } as const;
-    }
-  }
+    },
+  };
 }

@@ -15,12 +15,18 @@ export namespace Config {
   export const now = date;
   export const DIR = import.meta.dir;
   export const LOCAL_LLM_API = "http://127.0.0.1:1234/v1/responses";
-  export const LOCAL_MODEL = "qwen/qwen3-vl-4b";
 
   export const LLM = {
-    minimax_m2_1_free: "opencode/minimax-m2.1-free",
-    glm_4_7_free: "opencode/glm-4.7-free",
-    grok_code: "opencode/grok-code",
+    opencode: {
+      default: "opencode/glm-4.7-free",
+      minimax_m2_1_free: "opencode/minimax-m2.1-free",
+      glm_4_7_free: "opencode/glm-4.7-free",
+      grok_code: "opencode/grok-code",
+    },
+    local: {
+      default: "qwen/qwen3-vl-4b",
+      qwen3_vl_4b: "qwen/qwen3-vl-4b",
+    },
   } as const;
 
   export const DIFFUSION_MODEL = {

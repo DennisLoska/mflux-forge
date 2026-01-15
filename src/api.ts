@@ -1,6 +1,8 @@
 import { Config } from "../config";
 import { fetch } from "bun";
-import { logger } from "./logger";
+import { Logger } from "./logger";
+
+const { logger } = Logger;
 
 export namespace Api {
   export async function opencode(model: string, instructions: string) {
@@ -12,13 +14,13 @@ export namespace Api {
     }
   }
 
-  export async function local_llm(instructions: string) {
+  export async function local_llm(model: string, instructions: string) {
     try {
       const res = await fetch(Config.LOCAL_LLM_API, {
         method: "POST",
         signal: AbortSignal.timeout(120_000),
         body: JSON.stringify({
-          model: Config.LOCAL_MODEL,
+          model,
           input: instructions,
           temperature: 0.7,
           max_tokens: -1,

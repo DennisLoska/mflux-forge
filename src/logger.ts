@@ -11,4 +11,6 @@ await configure({
   ],
 });
 
-export const logger = getLogger(["flux"]);
+export namespace Logger {
+  export const logger = getLogger(["flux"]);
+}
