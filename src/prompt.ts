@@ -4,6 +4,7 @@ type Style = {
   primary: string;
   secondary: string;
   styles: string[];
+  texture: string;
 };
 
 export namespace Prompt {
@@ -22,9 +23,9 @@ export namespace Prompt {
   Keeping aforementioned instructions in mind create the image generation prompts for me by using
   the following instructions as a template:
 
-  [primary style: ${options.style.primary} secondary styles: ${options.style.secondary}] [subject & focal point], [setting & composition], [painting type] on [paper type],
-  [light & atmosphere], [palette], [techniques & edges], [mood adjectives], subtle paper texture,
-  tasteful white margins, minimalist, print-ready
+  [primary style: ${options.style.primary} secondary styles: ${options.style.secondary}, texture: ${options.style.texture}]
+  [subject & focal point], [setting & composition], [painting type] on [paper type],
+  [light & atmosphere], [palette], [techniques & edges], [mood adjectives], [texture] 
 
   Examples styles to use:
 
@@ -181,7 +182,7 @@ export namespace Prompt {
     - elements include cascading waterfalls, jagged peaks, ancient forests, and cosmic skies.
     - high contrast between light and shadow, dramatic weather patterns.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "Crystalline Glaciers: Shimmering ice, deep blue crevasses, Arctic light",
@@ -209,7 +210,7 @@ export namespace Prompt {
     - evokes a sense of meditation, cosmic order, and the microscopic/macroscopic.
     - background is often a deep void or a nebula to make the patterns pop.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "The Golden Ratio Nautilus: Iridescent spiral, fractal chambers, ocean abyss",
@@ -237,7 +238,7 @@ export namespace Prompt {
     - non-representational; should feel like an explosion of feeling.
     - visible brushstrokes and "happy accidents" in the composition.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "Rage: Crimson slashes, charcoal smudges, aggressive thick textures",
@@ -256,7 +257,7 @@ export namespace Prompt {
   }
 
   export function universal_archetypes(style: Style) {
-    const title = "universal human archetypes";
+    const title = "universal christian human archetypes";
 
     const description = `
     - iconic, statuesque figures representing fundamental human roles.
@@ -265,7 +266,7 @@ export namespace Prompt {
     - environments are minimal or theatrical to keep focus on the figure.
     - the figure embodies the "essence" of the role, appearing timeless.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "The Sovereign: Golden crown, heavy velvet robes, throne of stone",
@@ -293,7 +294,7 @@ export namespace Prompt {
     - surreal and dream-like logic; things merging into one another.
     - symbols like the ouroboros, the spiral, and the deep ocean.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "The Ego and the Id: A man looking into a mirror, seeing a beast within",
@@ -312,7 +313,7 @@ export namespace Prompt {
   }
 
   export function dramatic_everyday(style: Style) {
-    const title = "cinematic dramatic everyday life";
+    const title = "dramatic and emotional everyday life";
 
     const description = `
     - ordinary moments elevated by extreme cinematic lighting and mood.
@@ -321,7 +322,7 @@ export namespace Prompt {
     - high detail on surfaces: wet pavement, steam from a cup, dust motes.
     - moody, noir, or nostalgic color palettes.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "The Departure: A single suitcase on a rainy train platform, neon lights",
@@ -349,7 +350,7 @@ export namespace Prompt {
     - cultural motifs from Greek, Norse, Egyptian, and Eastern mythos.
     - vibrant, glowing elements contrasted with ancient stone and dust.
     - never include any signature, words, or watermark.
-  `;
+    `;
 
     const scenes = [
       "Icarus Falling: Wax wings melting, golden sun, turquoise Aegean sea",

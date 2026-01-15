@@ -17,23 +17,26 @@ const Lora = {
 };
 
 const Style = {
-  primary: "watercolor",
+  primary: Styles.WATERCOLOR.name,
   secondary: Lora.triggers,
-  styles: Styles.watercolor_styles,
+  styles: Styles.WATERCOLOR.styles,
+  texture: Styles.TEXTURE.paper,
 };
+
+export type Style = typeof Style;
 
 const LLM = Config.LLM.minimax_m2_1_free;
 const models = [Model.Z_IMAGE_TURBO];
 
 const instructions = [
-  Prompt.epic_nature_landscapes(Style),
-  Prompt.surreal_fractals(Style),
-  Prompt.abstract_expressions(Style),
-  Prompt.myths_and_legends(Style),
-  Prompt.universal_archetypes(Style),
+  Prompt.biblical(Style),
   Prompt.jungian_psychology(Style),
   Prompt.dramatic_everyday(Style),
-  Prompt.biblical(Style),
+  Prompt.universal_archetypes(Style),
+  // Prompt.epic_nature_landscapes(Style),
+  // Prompt.myths_and_legends(Style),
+  // Prompt.abstract_expressions(Style),
+  // Prompt.surreal_fractals(Style),
 ];
 
 async function benchmark() {
