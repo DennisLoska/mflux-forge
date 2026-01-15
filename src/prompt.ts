@@ -23,9 +23,9 @@ export namespace Prompt {
   Keeping aforementioned instructions in mind create the image generation prompts for me by using
   the following instructions as a template:
 
-  [primary style: ${options.style.primary} secondary styles: ${options.style.secondary}, texture: ${options.style.texture}]
-  [subject & focal point], [setting & composition], [painting type] on [paper type],
-  [light & atmosphere], [palette], [techniques & edges], [mood adjectives], [texture] 
+  ${options.style.secondary} [primary style: ${options.style.primary}],
+  [texture: ${options.style.texture}], [subject & focal point], [setting & composition],
+  [light & atmosphere], [palette], [techniques & edges], [mood adjectives], [finegranular texture] 
 
   Examples styles to use:
 
@@ -35,8 +35,8 @@ export namespace Prompt {
 
   ${JSON.stringify(options.scenes)}
 
-  Use these examples as reference, but do not use these exact examples word for word.
-  Instead come up with a new variety of different scenes for the list of prompts.
+  Use these example scenes only as reference, but never use these exact examples.
+  Instead come up with a completely new variety of different scenes for the list of prompts.
 
   Tips:
   - Front-load the most important elements (subject + medium first)
@@ -316,6 +316,7 @@ export namespace Prompt {
     const title = "dramatic and emotional everyday life";
 
     const description = `
+    - tragedy, love, war, suffering, redemption
     - ordinary moments elevated by extreme cinematic lighting and mood.
     - focus on the "quiet epic": heavy rain, golden hour, or harsh streetlights.
     - deep emotional resonance in simple acts (waiting, walking, looking).
@@ -325,6 +326,8 @@ export namespace Prompt {
     `;
 
     const scenes = [
+      "The Hero: A man saving someone elses life",
+      "The Savior: A sacrificing himself for others",
       "The Departure: A single suitcase on a rainy train platform, neon lights",
       "The Writer: A desk cluttered with papers, one candle, heavy shadows",
       "The Reunion: Two silhouettes embracing under a flickering streetlamp",

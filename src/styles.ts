@@ -1,5 +1,11 @@
 export namespace Styles {
+  export const NONE = {
+    name: "default",
+    styles: [],
+  };
+
   export const TEXTURE = {
+    none: "",
     paper:
       "subtle paper texture, tasteful white margins, minimalist, print-ready",
     oil_paint:

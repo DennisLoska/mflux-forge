@@ -74,5 +74,9 @@ export namespace Config {
       name: "renderartist/Technically-Color-Z-Image-Turbo",
       trigger: "t3chnic4lly",
     },
+    ghibli: {
+      name: "Ttio2/Z-Image-Turbo-Ghibli-Style",
+      trigger: "ghibli",
+    },
   } as const;
 }
