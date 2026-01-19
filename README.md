@@ -14,7 +14,7 @@ Here are some sample images generated with mflux-forge:
 
 ## Features
 
-- **Multi-Model Support**: FLUX.1-schnell, FLUX.1-dev, and Z-Image-Turbo models
+- **Multi-Model Support**: FLUX.1-schnell, FLUX.1-dev, FLUX.2-klein-4B, and Z-Image-Turbo models
 - **Art Style Presets**: Pencil watercolor, pixel art, digital art, classical painting, and more
 - **LLM Integration**: Uses OpenCode or local LLM APIs for intelligent prompt generation
 - **LoRA Fine-tuning**: Custom-trained models for specific artistic styles
@@ -175,6 +175,7 @@ mflux-forge/
 ├── images/           # Generated images
 │   ├── schnell/      # FLUX.1-schnell outputs
 │   ├── krea-dev/     # FLUX.1-dev outputs
+│   ├── flux2-klein-4b/ # FLUX.2-klein-4B outputs
 │   ├── turbo/        # Z-Image-Turbo outputs
 │   └── upscaled/     # High-resolution versions
 ├── prompts/          # Generated prompt files
@@ -216,8 +217,9 @@ mflux-forge/
 
 ### Performance Tips
 
-- Use FLUX.1-schnell for faster generation (7+ steps)
-- Reserve FLUX.1-dev for higher quality (20+ steps)
+- Use **FLUX.2-klein-4B** for fastest generation (4 steps) - ultra-compact 4B model
+- Use FLUX.1-schnell for balanced speed/quality (7+ steps)
+- Reserve FLUX.1-dev for highest quality (20+ steps)
 - Z-Image-Turbo works well with LoRAs (7-14 steps)
 - Upscaling is GPU-accelerated via Vulkan on macOS (32GB+ RAM recommended)
 - **Note**: Run the upscale command from the project root directory (where `realesrgan-ncnn/` is located) for automatic path resolution
