@@ -41,16 +41,16 @@ export namespace Model {
     let command: string;
 
     switch (model.base) {
-      case "z-image-turbo":
+      case z_image_turbo.base:
         command = "mflux-generate-z-image-turbo";
         break;
-      case "flux2-klein-4b":
+      case flux_two_klein.base:
         command = "mflux-generate-flux2";
         break;
-      case "krea-dev":
+      case flux_krea_dev.base:
         command = "mflux-generate";
         break;
-      case "schnell":
+      case flux_schnell.base:
         command = "mflux-generate";
         break;
       default:

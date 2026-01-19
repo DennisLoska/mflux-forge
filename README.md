@@ -159,7 +159,7 @@ The setup script has already installed mflux and Real-ESRGAN dependencies into t
 ### Basic Generation
 
 ```bash
-bun run src/main.ts
+bun start
 ```
 
 This will:
