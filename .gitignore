@@ -38,4 +38,6 @@ images
 prompts
 .venv
 .claude
-!realesrgan-ncnn/.gitkeep
+
+# downloaded upscale models
+realesrgan-ncnn
