@@ -237,6 +237,28 @@ mflux-forge/
 2. Add configuration to `Config.LORAS` in `config.ts`
 3. Create or modify presets to use the new LoRA
 
+## Model References
+
+This project uses the following AI models and LoRAs, all available on Hugging Face:
+
+### Diffusion Models
+
+- [**FLUX.1-schnell**](https://huggingface.co/dhairyashil/FLUX.1-schnell-mflux-v0.6.2-4bit) - Fast generation model (7 steps)
+- [**FLUX.1-dev**](https://huggingface.co/filipstrand/FLUX.1-Krea-dev-mflux-4bit) - High-quality generation model (20 steps)
+- [**FLUX.2-klein-4B**](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B) - Compact 4B parameter model (4 steps)
+- [**Z-Image-Turbo**](https://huggingface.co/filipstrand/Z-Image-Turbo-mflux-4bit) - Turbo generation model (12 steps)
+
+### LoRA Models
+
+- [**Pencil Sketch**](https://huggingface.co/Ttio2/Z-Image-Turbo-pencil-sketch) - Pencil sketch art style
+- [**Digital Art**](https://huggingface.co/bunnycore/Z-Art-2.1) - Digital art style (Z-Art-3.safetensors)
+- [**Pixel Art**](https://huggingface.co/tarn59/pixel_art_style_lora_z_image_turbo) - Pixel art style
+- [**Behind Glass**](https://huggingface.co/Quorlen/Z-Image-Turbo-Behind-Reeded-Glass-Lora) - Reeded glass effect
+- [**Classic Painting**](https://huggingface.co/renderartist/Classic-Painting-Z-Image-Turbo-LoRA) - Classical painting style
+- [**Anime-Z**](https://huggingface.co/strangerzonehf/Anime-Z) - Anime art style
+- [**Technically Color**](https://huggingface.co/renderartist/Technically-Color-Z-Image-Turbo) - Technical color style
+- [**Ghibli**](https://huggingface.co/Ttio2/Z-Image-Turbo-Ghibli-Style) - Studio Ghibli animation style
+
 ## Acknowledgments
 
 This project builds upon the excellent work of several open-source projects:
