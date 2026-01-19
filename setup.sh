@@ -61,12 +61,15 @@ if [ ! -d "realesrgan-ncnn" ]; then
 	# Download the macOS NCNN binary (using v0.2.5.0 as v0.3.0 doesn't have NCNN binaries)
 	wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip
 
-	# Extract the zip file
-	unzip realesrgan-ncnn-vulkan-20220424-macos.zip
-	rm realesrgan-ncnn-vulkan-20220424-macos.zip
+  # Extract the zip file
+  unzip realesrgan-ncnn-vulkan-20220424-macos.zip
+  rm realesrgan-ncnn-vulkan-20220424-macos.zip
 
-	# Create .gitignore to ignore contents but keep directory
-	echo "*" >.gitignore
+  # Make the binary executable
+  chmod +x realesrgan-ncnn-vulkan
+
+  # Create .gitignore to ignore contents but keep directory
+  echo "*" >.gitignore
 
 	cd ..
 else
