@@ -2,6 +2,16 @@
 
 A powerful AI image generation toolkit that combines LLM-powered prompt generation with diffusion models and LoRA fine-tuning for creating diverse artistic styles.
 
+Here are some sample images generated with mflux-forge:
+
+### Alpine Cascades
+![Alpine Cascades](examples/alpine_cascades_0.7_0_1280_720_12.png)
+*Generated with pencil watercolor preset using LoRA scales [0.7]*
+
+### Cosmic Skyline
+![Cosmic Skyline](examples/cosmic-skyline_0.7_2_1280_720_12.png)
+*Generated with pencil watercolor preset using LoRA scales [0.7]*
+
 ## Features
 
 - **Multi-Model Support**: FLUX.1-schnell, FLUX.1-dev, and Z-Image-Turbo models
@@ -222,18 +232,6 @@ mflux-forge/
 1. Download LoRA weights
 2. Add configuration to `Config.LORAS` in `config.ts`
 3. Create or modify presets to use the new LoRA
-
-## Examples
-
-Here are some sample images generated with mflux-forge:
-
-### Alpine Cascades
-![Alpine Cascades](examples/alpine_cascades_0.7_0_1280_720_12.png)
-*Generated with pencil watercolor preset using LoRA scales [0.7]*
-
-### Cosmic Skyline
-![Cosmic Skyline](examples/cosmic-skyline_0.7_2_1280_720_12.png)
-*Generated with pencil watercolor preset using LoRA scales [0.7]*
 
 ## Acknowledgments
 
