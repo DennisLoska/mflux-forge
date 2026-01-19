@@ -15,7 +15,7 @@ export interface ModelRunner {
 type Params = {
   prompt: string;
   filename: string;
-  count: string;
+  count: number;
   lora?: {
     paths: string[];
     scales: string[];

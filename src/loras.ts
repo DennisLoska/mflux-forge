@@ -12,14 +12,57 @@ export namespace Loras {
     "0.7",
     "0.8",
     "0.9",
-    "1.0",
   ];
+
+  export function base_matrix(factor: number = 1) {
+    const base_weights = [
+      ["0.0", "0.4"],
+      ["0.0", "0.5"],
+      ["0.0", "0.6"],
+      ["0.0", "0.7"],
+      ["0.1", "0.4"],
+      ["0.1", "0.5"],
+      ["0.1", "0.6"],
+      ["0.1", "0.7"],
+      ["0.6", "0.0"],
+      ["0.6", "0.1"],
+      ["0.6", "0.2"],
+      ["0.6", "0.4"],
+    ];
+
+    const base_matrix: string[][] = [];
+    if (factor < 1) throw new Error("factor must be at least 1");
+
+    for (let i = 0; i < factor; i++) {
+      base_matrix.push(...base_weights);
+    }
+
+    return base_matrix;
+  }
+
+  export function balanced_matrix(factor: number = 1) {
+    const balanced_matrix: string[][] = [];
+    if (factor < 1) throw new Error("factor must be at least 1");
+
+    for (let i = 0; i < factor; i++) {
+      balanced_matrix.push(["0.1", "0.6"], ["0.6", "0.1"]);
+    }
+
+    return balanced_matrix;
+  }
 
   const single: string[][] = [...steps.map((n) => [n])];
   const double: string[][] = steps.flatMap((v1) => steps.map((v2) => [v1, v2]));
 
-  export function identity(scale: string) {
-    return [[scale]];
+  export function identity(scale: number, iterations: number) {
+    if (!iterations) return [[String(scale)]];
+
+    const identity: string[][] = [];
+    for (let i = 0; i < iterations; i++) {
+      identity.push([String(scale)]);
+    }
+
+    return identity;
   }
 
   export function triggers(loras: Lora[]) {

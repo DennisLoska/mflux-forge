@@ -9,7 +9,7 @@ export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 14,
+    generations: 25,
   } as const;
 
   export const now = date;

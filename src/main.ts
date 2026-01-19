@@ -7,77 +7,95 @@ import { LLM } from "./llm";
 const { logger } = Logger;
 const BENCHMARK = false;
 
-const { instructions, models, lora } = Presets.PENCIL_WATERCOLOR;
+const presets = [
+  Presets.PENCIL_WATERCOLOR,
+  Presets.PIXIMIX,
+  Presets.PIXEL_ART,
+  Presets.ANIME,
+  Presets.TECHNICALLY_PIXEL,
+  Presets.DIGITAL_ART,
+  Presets.CLASSICAL_PAINTING,
+  Presets.TECHNICALLY_COLOR,
+];
 
 async function benchmark() {
-  for (let i = 0; i < lora.scales.length; i++) {
-    const res = await Model.Z_IMAGE_TURBO.run({
-      prompt: `A fractal mandala image of the shimmering red, golden lotus flower`,
-      filename: "benchmark.png",
-      count: String(i),
-      lora: {
-        paths: lora.paths,
-        scales: lora.scales[i] ?? [],
-      },
-    });
+  for (const preset of presets) {
+    const prompts: string[] = ["A portrait of Lenna"];
 
-    if (res === null) continue;
-    await Model.upscale(res.path, res.upscaled_path);
+    for (let i = 0; i < preset.lora.scales.length; i++) {
+      const prompt = prompts[Math.ceil(Math.random() * (prompts.length - 1))];
+      if (!prompt) continue;
+
+      const res = await Model.Z_IMAGE_TURBO.run({
+        prompt: prompt,
+        filename: `benchmark_${preset.name}_${new Date().getTime()}`,
+        count: i,
+        lora: {
+          paths: preset.lora.paths,
+          scales: preset.lora.scales[i] ?? [],
+        },
+      });
+
+      if (res === null) continue;
+      await Model.upscale(res.path, res.upscaled_path);
+    }
   }
 }
 
 async function main() {
-  if (BENCHMARK) benchmark();
+  for (const preset of presets) {
+    const { name, instructions, models, lora } = preset;
 
-  for (const instruction of instructions) {
-    let prompts;
-    logger.info("Generating image prompts:\n");
-    // Not enough RAM for this line :(
-    // const res = await Api.local_llm(instruction);
-    const res = await LLM.opencode.chat(instruction);
-    if (res === null) continue;
+    for (const instruction of instructions) {
+      let prompts;
+      logger.info("Generating image prompts:\n");
+      // Not enough RAM for this line :(
+      // const res = await Api.local_llm(instruction);
+      const res = await LLM.opencode.chat(instruction);
+      if (res === null) continue;
 
-    const file = Bun.file(`..//prompts/${Config.now}.txt`);
-    prompts = await file.text();
+      const file = Bun.file(`..//prompts/${Config.now}.txt`);
+      prompts = await file.text();
 
-    logger.info("\nGenerated prompts:\n");
-    logger.info(prompts);
+      logger.info("\nGenerated prompts:\n");
+      logger.info(prompts);
 
-    const lines = prompts.split("\n");
+      const lines = prompts.split("\n");
 
-    for (let i = 0; i < lora.scales.length; i++) {
-      for (const line of lines) {
-        logger.info("\nPrompt:\n");
-        logger.info(`${line}\n`);
-        logger.info(
-          `Generating image ${i + 1}/${lora.scales.length * lines.length}\n`,
-        );
+      for (let i = 0; i < lora.scales.length; i++) {
+        for (const line of lines) {
+          logger.info("\nPrompt:\n");
+          logger.info(`${line}\n`);
+          logger.info(
+            `Generating image ${i + 1}/${lora.scales.length * lines.length}\n`,
+          );
 
-        // good enough, ai is very reliable so far
-        const [filename, prompt] = line.split(".png");
-        if (!(filename && prompt)) {
-          logger.warn("Failed to extract filename - skipping\n");
-          continue;
-        }
+          const [filename, prompt] = line.split(".png");
+          if (!(filename && prompt)) {
+            logger.warn("Failed to extract filename - skipping\n");
+            continue;
+          }
 
-        for (const model of models) {
-          const res = await model.run({
-            prompt,
-            filename,
-            count: String(i),
-            lora: {
-              paths: lora.paths,
-              scales: lora.scales[i] ?? [],
-            },
-          });
+          for (const model of models) {
+            const res = await model.run({
+              prompt,
+              filename: `${filename}_${name}_${new Date().getTime()}`,
+              count: i,
+              lora: {
+                paths: lora.paths,
+                scales: lora.scales[i] ?? [],
+              },
+            });
 
-          if (res === null) continue;
+            if (res === null) continue;
 
-          await Model.upscale(res.path, res.upscaled_path);
+            await Model.upscale(res.path, res.upscaled_path);
+          }
         }
       }
     }
   }
 }
 
-main();
+if (BENCHMARK) benchmark();
+else main();
