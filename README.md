@@ -225,6 +225,26 @@ mflux-forge/
 2. Add configuration to `Config.LORAS` in `config.ts`
 3. Create or modify presets to use the new LoRA
 
+## Examples
+
+Here are some sample images generated with mflux-forge:
+
+### Alpine Cascades
+![Alpine Cascades](examples/alpine_cascades_0.7_0_1280_720_12.png)
+*Generated with pencil watercolor preset using LoRA scales [0.7, 0]*
+
+### Cosmic Skyline
+![Cosmic Skyline](examples/cosmic-skyline_0.7_2_1280_720_12.png)
+*Generated with anime preset using LoRA scales [0.7, 2]*
+
+## Acknowledgments
+
+This project builds upon the excellent work of several open-source projects:
+
+- [**MFlux**](https://github.com/filipstrand/mflux) - MLX native implementations of state-of-the-art generative image models
+- [**Real-ESRGAN**](https://github.com/xinntao/Real-ESRGAN) - Practical Algorithms for General Image Restoration
+- [**OpenCode**](https://github.com/anomalyco/opencode) - AI-powered code assistance and generation
+
 ## License
 
 MIT License - see LICENSE file for details.

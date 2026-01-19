@@ -38,6 +38,12 @@ if ! command -v wget &>/dev/null; then
 	brew install wget
 fi
 
+# Install opencode CLI
+if ! command -v opencode &>/dev/null; then
+	echo "🤖 Installing OpenCode CLI..."
+	brew install anomalyco/tap/opencode
+fi
+
 # Check if mflux is installed in venv
 if ! pip list --format=freeze 2>/dev/null | grep -q "^mflux=="; then
 	echo "🎨 Installing MFlux in virtual environment..."
