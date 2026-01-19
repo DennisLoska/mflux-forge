@@ -62,12 +62,13 @@ async function main() {
 
       const lines = prompts.split("\n");
 
+      let count = 0;
       for (let i = 0; i < lora.scales.length; i++) {
         for (const line of lines) {
           logger.info("\nPrompt:\n");
           logger.info(`${line}\n`);
           logger.info(
-            `Generating image ${i + 1}/${lora.scales.length * lines.length}\n`,
+            `Generating image ${count + 1}/${lora.scales.length * lines.length}\n`,
           );
 
           const [filename, prompt] = line.split(".png");
@@ -80,7 +81,7 @@ async function main() {
             const res = await model.run({
               prompt,
               filename: `${filename}_${name}_${new Date().getTime()}`,
-              count: i,
+              count,
               lora: {
                 paths: lora.paths,
                 scales: lora.scales[i] ?? [],
@@ -90,6 +91,7 @@ async function main() {
             if (res === null) continue;
 
             await Model.upscale(res.path, res.upscaled_path);
+            count++;
           }
         }
       }

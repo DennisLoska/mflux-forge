@@ -37,7 +37,7 @@ export namespace Presets {
   }
 
   function pencil_watercolor(): Preset {
-    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 10));
+    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 3));
     const style = {
       primary: Styles.WATERCOLOR.name,
       secondary: lora.triggers,
@@ -57,7 +57,7 @@ export namespace Presets {
   }
 
   function anime(): Preset {
-    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 10));
+    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 3));
     const style = _non_style(lora);
 
     const instructions = [
@@ -89,7 +89,7 @@ export namespace Presets {
   function piximix(): Preset {
     const lora = _lora(
       [Config.LORAS.pixel_art, Config.LORAS.anime_z],
-      [...Loras.base_matrix(1), ...Loras.balanced_matrix(10)],
+      [...Loras.base_matrix(1), ...Loras.balanced_matrix(2)],
     );
     const style = _non_style(lora);
 
@@ -105,7 +105,7 @@ export namespace Presets {
   }
 
   function pixel_art(): Preset {
-    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 10));
+    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 3));
     const style = _non_style(lora);
 
     const instructions = [
