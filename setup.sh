@@ -22,7 +22,7 @@ echo "✅ Found existing virtual environment"
 
 # Activate virtual environment
 echo "🔧 Activating virtual environment..."
-source .venv/bin/activate
+source .venv/bin/activate >/dev/null 2>&1 || true
 
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
@@ -39,9 +39,9 @@ if ! command -v wget &>/dev/null; then
 fi
 
 # Check if mflux is installed in venv
-if ! pip list | grep -q "mflux"; then
+if ! pip list --format=freeze 2>/dev/null | grep -q "^mflux=="; then
 	echo "🎨 Installing MFlux in virtual environment..."
-	pip install mflux --pre
+	pip install mflux --pre 2>/dev/null
 else
 	echo "✅ MFlux already installed in virtual environment"
 fi
@@ -59,8 +59,8 @@ if [ ! -d "realesrgan-ncnn" ]; then
 	unzip realesrgan-ncnn-vulkan-20220424-macos.zip
 	rm realesrgan-ncnn-vulkan-20220424-macos.zip
 
-	# Create .gitkeep to persist directory
-	touch .gitkeep
+	# Create .gitignore to ignore contents but keep directory
+	echo "*" >.gitignore
 
 	cd ..
 else
@@ -91,7 +91,3 @@ echo ""
 echo "To run the application:"
 echo "bun run src/main.ts"
 echo ""
-echo "Optional: Install LM Studio for local LLM support:"
-echo "1. Download from https://lmstudio.ai/"
-echo "2. Load a vision-capable model like Qwen3-VL-4B"
-echo "3. Start local server on port 1234"
