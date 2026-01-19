@@ -24,7 +24,7 @@ type Params = {
 
 export namespace Model {
   const {
-    DIFFUSION_MODEL: { z_image_turbo, flux_schnell, flux_dev },
+    DIFFUSION_MODEL: { z_image_turbo, flux_schnell, flux_dev, flux_two_klein },
     IMAGE,
     DIR,
   } = Config;
@@ -112,6 +112,38 @@ export namespace Model {
     },
   };
 
+  export const FLUX_TWO_KLEIN: ModelRunner = {
+    run: async ({ prompt, filename, count, lora }: Params) => {
+      const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${flux_two_klein.steps}.png`;
+      const out = `${DIR}/images/${flux_two_klein.base}/${filename}_${meta}`;
+      const upscaled = `${DIR}/images/upscaled/${flux_two_klein.base}/${filename}_${meta}`;
+
+      guard({ lora });
+
+      try {
+        await Bun.$`
+       mflux-generate-flux2 \
+        --model ${flux_two_klein.model} \
+        --base-model ${flux_two_klein.base} \
+        --prompt "${prompt}" \
+        --output "${out}" \
+        --width ${IMAGE.width} \
+        --height ${IMAGE.height} \
+        --steps ${flux_two_klein.steps}
+      `;
+      } catch (error) {
+        logger.error("Error", { error: error?.message });
+        return null;
+      }
+
+      return {
+        path: out,
+        filename: `${filename}_${count}_${meta}`,
+        upscaled_path: upscaled,
+      } as const;
+    },
+  };
+
   export const Z_IMAGE_TURBO: ModelRunner = {
     run: async ({ prompt, filename, count, lora }: Params) => {
       const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
@@ -121,7 +153,6 @@ export namespace Model {
       guard({ lora });
 
       try {
-        // TODO: LoRA free version
         await Bun.$`
        mflux-generate-z-image-turbo \
         --model ${z_image_turbo.model} \
