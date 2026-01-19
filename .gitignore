@@ -38,3 +38,4 @@ images
 prompts
 .venv
 .claude
+!realesrgan-ncnn/.gitkeep
