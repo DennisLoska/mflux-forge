@@ -22,6 +22,9 @@ type Params = {
   };
 };
 
+type Model =
+  (typeof Config.DIFFUSION_MODEL)[keyof typeof Config.DIFFUSION_MODEL];
+
 export namespace Model {
   const {
     DIFFUSION_MODEL: { z_image_turbo, flux_schnell, flux_dev, flux_two_klein },
@@ -29,13 +32,82 @@ export namespace Model {
     DIR,
   } = Config;
 
-  function guard(item: { lora: Params["lora"] }) {
-    if (item.lora) {
-      assert(
-        item.lora.paths.length === item.lora.scales.length,
-        "Lora paths and scale count do not match!",
-      );
+  function diff_model(model: Model): ModelRunner {
+    let command: string;
+
+    switch (model.base) {
+      case "turbo":
+        command = "mflux-generate-z-image-turbo";
+        break;
+      case "flux2-klein-4b":
+        command = "mflux-generate-flux2";
+        break;
+      case "krea-dev":
+        command = "mflux-generate";
+        break;
+      case "schnell":
+        command = "mflux-generate";
+        break;
+      default:
+        command = "mflux-generate";
+        break;
     }
+
+    function guard(item: { lora: Params["lora"] }) {
+      if (item.lora) {
+        assert(
+          item.lora.paths.length === item.lora.scales.length,
+          "Lora paths and scale count do not match!",
+        );
+      }
+    }
+
+    return {
+      run: async ({ prompt, filename, count, lora }: Params) => {
+        const meta = `_${IMAGE.width}_${IMAGE.height}_${model.steps}.png`;
+        const out = `${DIR}/images/${model.base}/${filename}_${count}_${meta}`;
+        const upscaled = `${DIR}/images/upscaled/${model.base}/${filename}_${count}_${meta}`;
+
+        guard({ lora });
+
+        try {
+          if (lora) {
+            await Bun.$`
+              ${command} \
+              --model ${model.model} \
+              --base-model ${model.base} \
+              --prompt "${prompt}" \
+              --output "${out}" \
+              --width ${IMAGE.width} \
+              --height ${IMAGE.height} \
+              --steps ${model.steps} \
+              --lora-paths ${lora?.paths} \
+              --lora-scales ${lora?.scales} \
+            `;
+          } else {
+            await Bun.$`
+              ${command} \
+              --model ${model.model} \
+              --base-model ${model.base} \
+              --prompt "${prompt}" \
+              --output "${out}" \
+              --width ${IMAGE.width} \
+              --height ${IMAGE.height} \
+              --steps ${model.steps} \
+            `;
+          }
+        } catch (error) {
+          logger.error("Error", { error: error?.message });
+          return null;
+        }
+
+        return {
+          path: out,
+          filename: `${filename}_${count}_${meta}`,
+          upscaled_path: upscaled,
+        } as const;
+      },
+    };
   }
 
   export async function upscale(input: string, output: string) {
@@ -48,132 +120,8 @@ export namespace Model {
     }
   }
 
-  export const FLUX_SCHNELL: ModelRunner = {
-    run: async ({ prompt, filename, count, lora }: Params) => {
-      const meta = `_${IMAGE.width}_${IMAGE.height}_${flux_schnell.steps}.png`;
-      const out = `${DIR}/images/${flux_schnell.base}/${filename}_${count}_${meta}`;
-      const upscaled = `${DIR}/images/upscaled/${flux_schnell.base}/${filename}_${count}_${meta}`;
-
-      guard({ lora });
-
-      try {
-        await Bun.$`
-        mflux-generate \
-          --model ${flux_schnell.model} \
-          --base-model ${flux_schnell.base} \
-          --prompt "${prompt}" \
-          --output "${out}" \
-          --width ${IMAGE.width} \
-          --height ${IMAGE.height} \
-          --steps ${flux_schnell.steps}
-      `;
-      } catch (error) {
-        logger.error("Error", { error: error?.message });
-        return null;
-      }
-
-      return {
-        path: out,
-        filename: `${filename}_${count}_${meta}`,
-        upscaled_path: upscaled,
-      } as const;
-    },
-  };
-
-  export const FLUX_DEV: ModelRunner = {
-    run: async ({ prompt, filename, count, lora }: Params) => {
-      const meta = `_${IMAGE.width}_${IMAGE.height}_${flux_dev.steps}.png`;
-      const out = `${DIR}/images/${flux_dev.base}/${filename}_${count}_${meta}`;
-      const upscaled = `${DIR}/images/upscaled/${flux_dev.base}/${filename}_${count}_${meta}`;
-
-      guard({ lora });
-
-      try {
-        await Bun.$`
-        mflux-generate \
-          --model ${flux_dev.model} \
-          --base-model ${flux_dev.base} \
-          --prompt "${prompt}" \
-          --output "${out}" \
-          --width ${IMAGE.width} \
-          --height ${IMAGE.height} \
-          --steps ${flux_dev.steps}
-      `;
-      } catch (error) {
-        logger.error("Error", { error: error?.message });
-        return null;
-      }
-
-      return {
-        path: out,
-        filename: `${filename}_${count}_${meta}`,
-        upscaled_path: upscaled,
-      } as const;
-    },
-  };
-
-  export const FLUX_TWO_KLEIN: ModelRunner = {
-    run: async ({ prompt, filename, count, lora }: Params) => {
-      const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${flux_two_klein.steps}.png`;
-      const out = `${DIR}/images/${flux_two_klein.base}/${filename}_${meta}`;
-      const upscaled = `${DIR}/images/upscaled/${flux_two_klein.base}/${filename}_${meta}`;
-
-      guard({ lora });
-
-      try {
-        await Bun.$`
-       mflux-generate-flux2 \
-        --model ${flux_two_klein.model} \
-        --base-model ${flux_two_klein.base} \
-        --prompt "${prompt}" \
-        --output "${out}" \
-        --width ${IMAGE.width} \
-        --height ${IMAGE.height} \
-        --steps ${flux_two_klein.steps}
-      `;
-      } catch (error) {
-        logger.error("Error", { error: error?.message });
-        return null;
-      }
-
-      return {
-        path: out,
-        filename: `${filename}_${count}_${meta}`,
-        upscaled_path: upscaled,
-      } as const;
-    },
-  };
-
-  export const Z_IMAGE_TURBO: ModelRunner = {
-    run: async ({ prompt, filename, count, lora }: Params) => {
-      const meta = `${lora?.scales}_${count}_${IMAGE.width}_${IMAGE.height}_${z_image_turbo.steps}.png`;
-      const out = `${DIR}/images/${z_image_turbo.base}/${filename}_${meta}`;
-      const upscaled = `${DIR}/images/upscaled/${z_image_turbo.base}/${filename}_${meta}`;
-
-      guard({ lora });
-
-      try {
-        await Bun.$`
-       mflux-generate-z-image-turbo \
-        --model ${z_image_turbo.model} \
-        --prompt "${prompt}" \
-        --output "${out}" \
-        --lora-paths ${lora?.paths} \
-        --lora-scales ${lora?.scales} \
-        --width ${IMAGE.width} \
-        --height ${IMAGE.height} \
-        --steps ${z_image_turbo.steps}
-      `;
-      } catch (error) {
-        logger.error("Error", { error: error?.message });
-        return null;
-      }
-
-      return {
-        path: out,
-        filename: `${filename}_${count}_${meta}`,
-        upscaled_path: upscaled,
-      } as const;
-    },
-  };
+  export const FLUX_SCHNELL = diff_model(flux_schnell);
+  export const FLUX_DEV = diff_model(flux_dev);
+  export const FLUX_TWO_KLEIN = diff_model(flux_two_klein);
+  export const Z_IMAGE_TURBO = diff_model(z_image_turbo);
 }
