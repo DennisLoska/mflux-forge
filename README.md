@@ -5,7 +5,7 @@ A powerful AI image generation toolkit that combines LLM-powered prompt generati
 ## Features
 
 - **Multi-Model Support**: FLUX.1-schnell, FLUX.1-dev, and Z-Image-Turbo models
-- **Art Style Presets**: Pencil watercolor, anime, pixel art, digital art, classical painting, and more
+- **Art Style Presets**: Pencil watercolor, pixel art, digital art, classical painting, and more
 - **LLM Integration**: Uses OpenCode or local LLM APIs for intelligent prompt generation
 - **LoRA Fine-tuning**: Custom-trained models for specific artistic styles
 - **Automatic Upscaling**: Real-ESRGAN integration for high-quality image enhancement
@@ -150,7 +150,7 @@ bun run src/main.ts
 
 This will:
 1. Generate prompts using the configured LLM
-2. Create images for each preset style (pencil watercolor, anime, pixel art, etc.)
+2. Create images for each preset style (pencil watercolor, classic, pixel art, etc.)
 3. Automatically upscale all generated images
 4. Save outputs to the `images/` directory
 
@@ -205,9 +205,7 @@ mflux-forge/
 - Use FLUX.1-schnell for faster generation (7+ steps)
 - Reserve FLUX.1-dev for higher quality (20+ steps)
 - Z-Image-Turbo works well with LoRAs (7-14 steps)
-- NCNN-based upscaling is much faster than Python-based alternatives
-- The upscale script uses optimized anime video model (`realesr-animevideov3`)
-- Upscaling is GPU-accelerated via Vulkan on macOS
+- Upscaling is GPU-accelerated via Vulkan on macOS (32GB+ RAM recommended)
 - **Note**: Run the upscale command from the project root directory (where `realesrgan-ncnn/` is located) for automatic path resolution
 
 ## Development
@@ -231,11 +229,11 @@ Here are some sample images generated with mflux-forge:
 
 ### Alpine Cascades
 ![Alpine Cascades](examples/alpine_cascades_0.7_0_1280_720_12.png)
-*Generated with pencil watercolor preset using LoRA scales [0.7, 0]*
+*Generated with pencil watercolor preset using LoRA scales [0.7]*
 
 ### Cosmic Skyline
 ![Cosmic Skyline](examples/cosmic-skyline_0.7_2_1280_720_12.png)
-*Generated with anime preset using LoRA scales [0.7, 2]*
+*Generated with pencil watercolor preset using LoRA scales [0.7]*
 
 ## Acknowledgments
 

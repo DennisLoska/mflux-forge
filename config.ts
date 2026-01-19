@@ -40,6 +40,11 @@ export namespace Config {
       base: "krea-dev",
       steps: 20,
     },
+    flux_two_klein: {
+      model: "black-forest-labs/FLUX.2-klein-4B",
+      base: "flux2-klein-4b",
+      steps: 4,
+    },
     z_image_turbo: {
       model: "filipstrand/Z-Image-Turbo-mflux-4bit",
       base: "turbo",

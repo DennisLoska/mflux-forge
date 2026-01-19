@@ -17,7 +17,7 @@ fi
 
 # Navigate and run
 pushd "$REAL_PATH" >/dev/null
-./realesrgan-ncnn-vulkan -i "$IN" -o "$OUT" -n realesr-animevideov3 -t 1280
+./realesrgan-ncnn-vulkan -i "$IN" -o "$OUT" -n realesrgan-x4plus-anime -t 1280
 popd >/dev/null
 
 # Optional: sips --resampleWidth 2560 "$OUT" >/dev/null
