@@ -27,7 +27,12 @@ type Model =
 
 export namespace Model {
   const {
-    DIFFUSION_MODEL: { z_image_turbo, flux_schnell, flux_dev, flux_two_klein },
+    DIFFUSION_MODEL: {
+      z_image_turbo,
+      flux_schnell,
+      flux_krea_dev,
+      flux_two_klein,
+    },
     IMAGE,
     DIR,
   } = Config;
@@ -36,7 +41,7 @@ export namespace Model {
     let command: string;
 
     switch (model.base) {
-      case "turbo":
+      case "z-image-turbo":
         command = "mflux-generate-z-image-turbo";
         break;
       case "flux2-klein-4b":
@@ -62,7 +67,7 @@ export namespace Model {
       }
     }
 
-    return {
+    const model_runner = {
       run: async ({ prompt, filename, count, lora }: Params) => {
         const meta = `_${IMAGE.width}_${IMAGE.height}_${model.steps}.png`;
         const out = `${DIR}/images/${model.base}/${filename}_${count}_${meta}`;
@@ -108,6 +113,8 @@ export namespace Model {
         } as const;
       },
     };
+
+    return model_runner;
   }
 
   export async function upscale(input: string, output: string) {
@@ -121,7 +128,7 @@ export namespace Model {
   }
 
   export const FLUX_SCHNELL = diff_model(flux_schnell);
-  export const FLUX_DEV = diff_model(flux_dev);
+  export const FLUX_DEV = diff_model(flux_krea_dev);
   export const FLUX_TWO_KLEIN = diff_model(flux_two_klein);
   export const Z_IMAGE_TURBO = diff_model(z_image_turbo);
 }

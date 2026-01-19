@@ -35,7 +35,7 @@ export namespace Config {
       base: "schnell",
       steps: 7,
     },
-    flux_dev: {
+    flux_krea_dev: {
       model: "filipstrand/FLUX.1-Krea-dev-mflux-4bit",
       base: "krea-dev",
       steps: 20,
@@ -47,7 +47,7 @@ export namespace Config {
     },
     z_image_turbo: {
       model: "filipstrand/Z-Image-Turbo-mflux-4bit",
-      base: "turbo",
+      base: "z-image-turbo",
       steps: 12,
     },
   } as const;
