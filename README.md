@@ -21,7 +21,8 @@ Here are some sample images generated with mflux-forge:
 - **Automatic Upscaling**: Real-ESRGAN integration for high-quality image enhancement
 - **Batch Processing**: Generate multiple variations of prompts and styles
 
-## Prerequisites
+<details>
+<summary><strong>Prerequisites</strong></summary>
 
 ### For Mac Users
 
@@ -56,6 +57,7 @@ Here are some sample images generated with mflux-forge:
    ```bash
    brew install git
    ```
+</details>
 
 ## Installation
 
@@ -79,7 +81,8 @@ pip install --upgrade pip
 ./setup.sh
 ```
 
-### Manual Setup
+<details>
+<summary><strong>Manual Setup</strong></summary>
 
 If you prefer to install manually or are on a different platform:
 
@@ -112,7 +115,7 @@ If you prefer to install manually or are on a different platform:
    **Real-ESRGAN NCNN** (for upscaling):
    The setup script automatically downloads the macOS NCNN Vulkan binary (v0.2.5.0) from Real-ESRGAN releases and extracts it to `realesrgan-ncnn/` directory. Includes pre-trained models and a custom upscale script using the native binary for GPU-accelerated performance.
 
-### Verify Installation
+#### Verify Installation
 
 After installation, verify everything is working:
 
@@ -130,6 +133,7 @@ upscale realesrgan-ncnn/input.jpg /tmp/test_output.jpg
 # Check bun and dependencies
 bun --version
 ```
+</details>
 
 ## Configuration
 
