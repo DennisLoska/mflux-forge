@@ -1,0 +1,97 @@
+#!/bin/bash
+# mflux-forge setup script for Mac
+set -e
+
+echo "🚀 Setting up mflux-forge..."
+echo "============================="
+
+# Check if running on macOS
+if [[ "$OSTYPE" != "darwin"* ]]; then
+	echo "❌ This setup script is only for macOS"
+	exit 1
+fi
+
+# Check if virtual environment exists
+if [ ! -d ".venv" ]; then
+	echo "❌ No virtual environment found. Please create one first:"
+	echo "python -m venv .venv"
+	exit 1
+fi
+
+echo "✅ Found existing virtual environment"
+
+# Activate virtual environment
+echo "🔧 Activating virtual environment..."
+source .venv/bin/activate
+
+# Check if Homebrew is installed
+if ! command -v brew &>/dev/null; then
+	echo "📦 Installing Homebrew..."
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Install wget for Real-ESRGAN
+if ! command -v wget &>/dev/null; then
+	echo "📥 Installing wget..."
+	brew install wget
+fi
+
+# Check if mflux is installed in venv
+if ! pip list | grep -q "mflux"; then
+	echo "🎨 Installing MFlux in virtual environment..."
+	pip install mflux --pre
+else
+	echo "✅ MFlux already installed in virtual environment"
+fi
+
+# Setup Real-ESRGAN NCNN binary
+if [ ! -d "realesrgan-ncnn" ]; then
+	echo "🔍 Downloading Real-ESRGAN NCNN binary..."
+	mkdir -p realesrgan-ncnn
+	cd realesrgan-ncnn
+
+	# Download the macOS NCNN binary (using v0.2.5.0 as v0.3.0 doesn't have NCNN binaries)
+	wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip
+
+	# Extract the zip file
+	unzip realesrgan-ncnn-vulkan-20220424-macos.zip
+	rm realesrgan-ncnn-vulkan-20220424-macos.zip
+
+	# Create .gitkeep to persist directory
+	touch .gitkeep
+
+	cd ..
+else
+	echo "✅ Real-ESRGAN NCNN binary already exists"
+fi
+
+# Install project dependencies (Bun/JavaScript)
+echo "📦 Installing project dependencies..."
+if command -v bun &>/dev/null; then
+	bun install
+else
+	echo "⚠️  Bun not found. Installing Bun..."
+	curl -fsSL https://bun.sh/install | bash
+	source ~/.zshrc
+	bun install
+fi
+
+# Deactivate venv
+deactivate
+
+echo "✅ Setup complete!"
+echo "=================="
+echo "Your virtual environment is ready with all dependencies."
+echo ""
+echo "To activate the virtual environment for Python work:"
+echo "source .venv/bin/activate"
+echo ""
+echo "To run the application:"
+echo "bun run src/main.ts"
+echo ""
+echo "Optional: Install LM Studio for local LLM support:"
+echo "1. Download from https://lmstudio.ai/"
+echo "2. Load a vision-capable model like Qwen3-VL-4B"
+echo "3. Start local server on port 1234"

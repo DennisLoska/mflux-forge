@@ -41,7 +41,7 @@ export namespace Model {
   export async function upscale(input: string, output: string) {
     try {
       logger.info(`\nUpscaling image: ${input}\n`);
-      await Bun.$`upscale ${input} ${output}`;
+      await Bun.$`${DIR}/upscale.sh ${input} ${output}`;
     } catch (error) {
       logger.error("Error", { error: error?.message });
       return null;
