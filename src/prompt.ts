@@ -1,11 +1,16 @@
 import { Config } from "../config";
 
-type Style = {
+export type Style = {
   primary: string;
   secondary: string;
   styles: string[];
   texture: string;
 };
+
+export interface Instruction {
+  name: string;
+  prompt: string;
+}
 
 export namespace Prompt {
   function system(options: {
@@ -53,7 +58,8 @@ export namespace Prompt {
 `;
   }
 
-  export function biblical(style: Style) {
+  export function biblical(style: Style): Instruction {
+    const name = "biblical";
     const title = "epic biblical landscape scenery";
 
     const description = `
@@ -169,10 +175,10 @@ export namespace Prompt {
       "The Victory over Death: The Lamb, Ultimate Triumph, The Cosmos",
     ];
 
-    return system({ style, title, description, scenes });
+    return { name, prompt: system({ style, title, description, scenes }) };
   }
 
-  export function epic_nature_landscapes(style: Style) {
+  export function epic_nature_landscapes(style: Style): Instruction {
     const title = "epic nature landscapes";
 
     const description = `
@@ -197,10 +203,13 @@ export namespace Prompt {
       "The Autumn Canyon: Fiery maple trees, deep river gorge, golden morning mist",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "epic_nature_landscapes",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function surreal_fractals(style: Style) {
+  export function surreal_fractals(style: Style): Instruction {
     const title = "surreal fractal mandala patterns";
 
     const description = `
@@ -225,10 +234,13 @@ export namespace Prompt {
       "The Fractal Hive: Hexagonal golden chambers, repeating honeycombs, amber light",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "surreal_fractals",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function abstract_expressions(style: Style) {
+  export function abstract_expressions(style: Style): Instruction {
     const title = "raw abstract expressionism";
 
     const description = `
@@ -253,10 +265,13 @@ export namespace Prompt {
       "Rhythm: Repeating staccato marks of emerald and violet, dancing visual vibration",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "abstract_expressions",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function universal_archetypes(style: Style) {
+  export function universal_archetypes(style: Style): Instruction {
     const title = "universal christian human archetypes";
 
     const description = `
@@ -281,10 +296,13 @@ export namespace Prompt {
       "The Innocent: A child standing in a field of white lilies, pure midday sun",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "universal_archetypes",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function jungian_psychology(style: Style) {
+  export function jungian_psychology(style: Style): Instruction {
     const title = "jungian psychological landscapes";
 
     const description = `
@@ -309,10 +327,13 @@ export namespace Prompt {
       "The Alchemical Marriage: Red and white liquids mixing in a glass vessel, steam",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "jungian_psychology",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function dramatic_everyday(style: Style) {
+  export function dramatic_everyday(style: Style): Instruction {
     const title = "dramatic and emotional everyday life";
 
     const description = `
@@ -340,10 +361,13 @@ export namespace Prompt {
       "The First Step: A toddler's foot hovering over a sunlit carpet, dramatic tension",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "dramatic_everyday",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 
-  export function myths_and_legends(style: Style) {
+  export function myths_and_legends(style: Style): Instruction {
     const title = "world myths and ancient legends";
 
     const description = `
@@ -368,6 +392,9 @@ export namespace Prompt {
       "The Sword in the Stone: A shaft of light hitting a hilt, ancient forest, mossy rock",
     ];
 
-    return system({ style, title, description, scenes });
+    return {
+      name: "myths_and_legends",
+      prompt: system({ style, title, description, scenes }),
+    };
   }
 }
