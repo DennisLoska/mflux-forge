@@ -15,7 +15,6 @@ export interface ModelRunner {
 type Params = {
   prompt: string;
   filename: string;
-  count: number;
   lora?: {
     paths: string[];
     scales: string[];
@@ -68,10 +67,10 @@ export namespace Model {
     }
 
     const model_runner = {
-      run: async ({ prompt, filename, count, lora }: Params) => {
-        const meta = `_${IMAGE.width}_${IMAGE.height}_${model.steps}.png`;
-        const out = `${DIR}/images/${model.base}/${filename}_${count}_${meta}`;
-        const upscaled = `${DIR}/images/upscaled/${model.base}/${filename}_${count}_${meta}`;
+      run: async ({ prompt, filename, lora }: Params) => {
+        const meta = `${IMAGE.width}_${IMAGE.height}_${model.steps}.png`;
+        const out = `${DIR}/images/${model.base}/${filename}_${meta}`;
+        const upscaled = `${DIR}/images/upscaled/${model.base}/${filename}_${meta}`;
 
         guard({ lora });
 
@@ -108,7 +107,7 @@ export namespace Model {
 
         return {
           path: out,
-          filename: `${filename}_${count}_${meta}`,
+          filename: `${filename}_${meta}`,
           upscaled_path: upscaled,
         } as const;
       },
@@ -121,6 +120,7 @@ export namespace Model {
     try {
       logger.info(`\nUpscaling image: ${input}\n`);
       await Bun.$`${DIR}/upscale.sh ${input} ${output}`;
+      // await Bun.$`${DIR}/realesrgan-ncnn/realesrgan-ncnn-vulkan -i "${input}" -o "${output}" -n realesrgan-x4plus -t ${Config.IMAGE.width}`;
     } catch (error) {
       logger.error("Error", { error: error?.message });
       return null;

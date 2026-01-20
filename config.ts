@@ -18,7 +18,7 @@ export namespace Config {
 
   export const LLM = {
     opencode: {
-      default: "opencode/glm-4.7-free",
+      default: "opencode/minimax-m2.1-free",
       minimax_m2_1_free: "opencode/minimax-m2.1-free",
       glm_4_7_free: "opencode/glm-4.7-free",
       grok_code: "opencode/grok-code",
@@ -43,7 +43,7 @@ export namespace Config {
     flux_two_klein: {
       model: "black-forest-labs/FLUX.2-klein-4B",
       base: "flux2-klein-4b",
-      steps: 4,
+      steps: 7,
     },
     z_image_turbo: {
       model: "filipstrand/Z-Image-Turbo-mflux-4bit",

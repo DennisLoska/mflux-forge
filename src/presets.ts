@@ -1,13 +1,11 @@
 import { Config } from "../config";
 import { Loras } from "./loras";
-import { Model, type ModelRunner } from "./models";
 import { Prompt } from "./prompt";
 import { Styles } from "./styles";
 
 interface Preset {
   name: string;
   instructions: string[];
-  models: ModelRunner[];
   lora: {
     scales: string[][];
     triggers: string;
@@ -19,7 +17,7 @@ export namespace Presets {
   function _lora(
     loras: (typeof Config.LORAS)[keyof typeof Config.LORAS][],
     custom?: string[][],
-  ) {
+  ): Preset["lora"] {
     return {
       scales: custom ? custom : Loras.scales(loras),
       triggers: Loras.triggers(loras),
@@ -27,17 +25,32 @@ export namespace Presets {
     };
   }
 
-  function _non_style(lora: Preset["lora"]) {
+  function _non_lora(): Preset["lora"] {
+    return {
+      scales: [[""]],
+      triggers: "",
+      paths: [""],
+    };
+  }
+
+  function _no_style(lora?: Preset["lora"]) {
     return {
       primary: Styles.NONE.name,
-      secondary: lora.triggers,
+      secondary: lora?.triggers ?? "",
       styles: Styles.NONE.styles,
       texture: Styles.TEXTURE.none,
     };
   }
 
+  function benchmark(): Preset {
+    const lora = _non_lora();
+    const instructions: string[] = [];
+
+    return { name: "benchmark", instructions, lora };
+  }
+
   function pencil_watercolor(): Preset {
-    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 3));
+    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 1));
     const style = {
       primary: Styles.WATERCOLOR.name,
       secondary: lora.triggers,
@@ -52,13 +65,12 @@ export namespace Presets {
       Prompt.universal_archetypes(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "pencil_watercolor", instructions, models, lora };
+    return { name: "pencil_watercolor", instructions, lora };
   }
 
   function anime(): Preset {
-    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 3));
-    const style = _non_style(lora);
+    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 1));
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -67,13 +79,15 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "anime", instructions, models, lora };
+    return { name: "anime", instructions, lora };
   }
 
   function animix(): Preset {
-    const lora = _lora([Config.LORAS.anime_z, Config.LORAS.ghibli]);
-    const style = _non_style(lora);
+    const lora = _lora(
+      [Config.LORAS.anime_z, Config.LORAS.ghibli],
+      Loras.balanced_matrix(1),
+    );
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -82,16 +96,15 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "animix", instructions, models, lora };
+    return { name: "animix", instructions, lora };
   }
 
   function piximix(): Preset {
     const lora = _lora(
       [Config.LORAS.pixel_art, Config.LORAS.anime_z],
-      [...Loras.base_matrix(1), ...Loras.balanced_matrix(2)],
+      Loras.balanced_matrix(1),
     );
-    const style = _non_style(lora);
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -100,13 +113,12 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "piximix", instructions, models, lora };
+    return { name: "piximix", instructions, lora };
   }
 
   function pixel_art(): Preset {
-    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 3));
-    const style = _non_style(lora);
+    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 1));
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -115,13 +127,12 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "pixel_art", instructions, models, lora };
+    return { name: "pixel_art", instructions, lora };
   }
 
   function digital_art(): Preset {
-    const lora = _lora([Config.LORAS.digital_art]);
-    const style = _non_style(lora);
+    const lora = _lora([Config.LORAS.digital_art], Loras.identity(0.4, 1));
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -130,13 +141,12 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "digital_art", instructions, models, lora };
+    return { name: "digital_art", instructions, lora };
   }
 
   function classical_painting(): Preset {
-    const lora = _lora([Config.LORAS.classic_painting]);
-    const style = _non_style(lora);
+    const lora = _lora([Config.LORAS.classic_painting], Loras.identity(0.7, 1));
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -145,13 +155,12 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "classical_painting", instructions, models, lora };
+    return { name: "classical_painting", instructions, lora };
   }
 
   function technically_color(): Preset {
     const lora = _lora([Config.LORAS.technically_color]);
-    const style = _non_style(lora);
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -160,8 +169,7 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "technically_color", instructions, models, lora };
+    return { name: "technically_color", instructions, lora };
   }
 
   function technically_pixel(): Preset {
@@ -169,7 +177,7 @@ export namespace Presets {
       [Config.LORAS.technically_color, Config.LORAS.pixel_art],
       [...Loras.base_matrix()],
     );
-    const style = _non_style(lora);
+    const style = _no_style(lora);
 
     const instructions = [
       Prompt.biblical(style),
@@ -178,10 +186,10 @@ export namespace Presets {
       Prompt.jungian_psychology(style),
     ];
 
-    const models = [Model.Z_IMAGE_TURBO];
-    return { name: "technically_pixel", instructions, models, lora };
+    return { name: "technically_pixel", instructions, lora };
   }
 
+  export const BENCHMARK = benchmark();
   export const PENCIL_WATERCOLOR = pencil_watercolor();
   export const ANIME = anime();
   export const ANIMIX = animix();
