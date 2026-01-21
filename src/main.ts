@@ -3,6 +3,7 @@ import { Config } from "../config";
 import { Logger } from "./logger";
 import { Presets } from "./presets";
 import { LLM } from "./llm";
+import assert from "node:assert";
 
 const { logger } = Logger;
 const BENCHMARK = false;
@@ -26,8 +27,16 @@ const models = [Model.Z_IMAGE_TURBO];
 // - fix upscale.sh -> remove indirection
 // - ffmpeg integration to generate videos
 
-// Basically: x images per preset * y instructions per preset * z scales per preset * n models
+function env_check() {
+  assert(
+    Bun.env.HF_TOKEN,
+    "Huggingface access token HF_TOKEN is missing. Add it to the .env or your environment. You can set and find your token here: https://huggingface.co/settings/tokens",
+  );
+}
+
 async function main() {
+  env_check();
+  // Basically: x images per preset * y instructions per preset * z scales per preset * n models
   for (const preset of presets) {
     const { name, instructions, lora } = preset;
     let count = 0;

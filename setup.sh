@@ -61,15 +61,15 @@ if [ ! -d "realesrgan-ncnn" ]; then
 	# Download the macOS NCNN binary (using v0.2.5.0 as v0.3.0 doesn't have NCNN binaries)
 	wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip
 
-  # Extract the zip file
-  unzip realesrgan-ncnn-vulkan-20220424-macos.zip
-  rm realesrgan-ncnn-vulkan-20220424-macos.zip
+	# Extract the zip file
+	unzip realesrgan-ncnn-vulkan-20220424-macos.zip
+	rm realesrgan-ncnn-vulkan-20220424-macos.zip
 
-  # Make the binary executable
-  chmod +x realesrgan-ncnn-vulkan
+	# Make the binary executable
+	chmod +x realesrgan-ncnn-vulkan
 
-  # Create .gitignore to ignore contents but keep directory
-  echo "*" >.gitignore
+	# Create .gitignore to ignore contents but keep directory
+	echo "*" >.gitignore
 
 	cd ..
 else
@@ -84,7 +84,14 @@ else
 	echo "⚠️  Bun not found. Installing Bun..."
 	curl -fsSL https://bun.sh/install | bash
 	source ~/.zshrc
+	source ~/.bashrc
 	bun install
+
+	echo "✅ Bun installed!"
+	echo "Make sure to add these lines to your i.e. ~/.zshrc:"
+	echo ""
+	echo "export BUN_INSTALL=\"$HOME/.bun\""
+	echo "export PATH=\"$BUN_INSTALL/bin:$PATH\""
 fi
 
 # Deactivate venv
