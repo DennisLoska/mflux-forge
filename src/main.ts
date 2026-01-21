@@ -21,7 +21,7 @@ const presets = [
 const models = [Model.Z_IMAGE_TURBO];
 
 // TODO
-// - model specific lora support
+// - model specific lora support -> make presets model centric
 // - model specific presets -> how to organize?
 // - fix upscale.sh -> remove indirection
 // - ffmpeg integration to generate videos

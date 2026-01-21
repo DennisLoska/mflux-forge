@@ -61,7 +61,7 @@ export namespace Presets {
   }
 
   function pencil_watercolor(): Preset {
-    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 1));
+    const lora = _lora([Config.LORAS.pencil_sketch], Loras.identity(0.7, 2));
     const style = {
       primary: Styles.WATERCOLOR.name,
       secondary: lora.triggers,
@@ -74,7 +74,7 @@ export namespace Presets {
   }
 
   function anime(): Preset {
-    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 1));
+    const lora = _lora([Config.LORAS.anime_z], Loras.identity(0.6, 2));
     const style = _no_style(lora);
     const instructions = instruction_list(style);
     return { name: "anime", instructions, lora };
@@ -101,28 +101,31 @@ export namespace Presets {
   }
 
   function pixel_art(): Preset {
-    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 1));
+    const lora = _lora([Config.LORAS.pixel_art], Loras.identity(0.1, 2));
     const style = _no_style(lora);
     const instructions = instruction_list(style);
     return { name: "pixel_art", instructions, lora };
   }
 
   function digital_art(): Preset {
-    const lora = _lora([Config.LORAS.digital_art], Loras.identity(0.4, 1));
+    const lora = _lora([Config.LORAS.digital_art], Loras.identity(0.4, 2));
     const style = _no_style(lora);
     const instructions = instruction_list(style);
     return { name: "digital_art", instructions, lora };
   }
 
   function classical_painting(): Preset {
-    const lora = _lora([Config.LORAS.classic_painting], Loras.identity(0.7, 1));
+    const lora = _lora([Config.LORAS.classic_painting], Loras.identity(0.7, 2));
     const style = _no_style(lora);
     const instructions = instruction_list(style);
     return { name: "classical_painting", instructions, lora };
   }
 
   function technically_color(): Preset {
-    const lora = _lora([Config.LORAS.technically_color]);
+    const lora = _lora(
+      [Config.LORAS.technically_color],
+      Loras.balanced_matrix(1),
+    );
     const style = _no_style(lora);
     const instructions = instruction_list(style);
     return { name: "technically_color", instructions, lora };
@@ -131,7 +134,7 @@ export namespace Presets {
   function technically_pixel(): Preset {
     const lora = _lora(
       [Config.LORAS.technically_color, Config.LORAS.pixel_art],
-      [...Loras.base_matrix()],
+      Loras.balanced_matrix(1),
     );
     const style = _no_style(lora);
     const instructions = instruction_list(style);
