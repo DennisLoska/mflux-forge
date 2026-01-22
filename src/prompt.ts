@@ -49,7 +49,7 @@ export namespace Prompt {
   - ~50-250 words tends to be the sweet spot
   - Prefer concrete subjects over abstract descriptions
 
-  Create a file called ${options.title}_${Config.now}.txt in ${Config.DIR}/prompts and save all prompts there.
+  Create a file called ${options.name}_${Config.now}.txt in ${Config.DIR}/prompts and save all prompts there.
 
   Make sure that you only write one prompt per line!
   Prefix each line with the name of the file.
@@ -209,6 +209,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
@@ -240,6 +241,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
@@ -271,6 +273,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
@@ -302,6 +305,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
@@ -333,6 +337,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
@@ -367,6 +372,7 @@ export namespace Prompt {
     ];
 
     return {
+      name,
       prompt: system({ style, title, name, description, scenes }),
     };
   }
