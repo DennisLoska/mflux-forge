@@ -1,10 +1,11 @@
-import { Config } from "../config";
+import { Config, type DiffusionModel, type ModelName } from "../config";
 import assert from "node:assert";
 import { Logger } from "./logger";
 
 const { logger } = Logger;
 
 export interface ModelRunner {
+  name: ModelName;
   run: (options: Params) => Promise<{
     path: string;
     filename: string;
@@ -21,9 +22,6 @@ type Params = {
   };
 };
 
-type Model =
-  (typeof Config.DIFFUSION_MODEL)[keyof typeof Config.DIFFUSION_MODEL];
-
 export namespace Model {
   const {
     DIFFUSION_MODEL: {
@@ -36,7 +34,7 @@ export namespace Model {
     DIR,
   } = Config;
 
-  function diff_model(model: Model): ModelRunner {
+  function diff_model(model: DiffusionModel): ModelRunner {
     let command: string;
 
     switch (model.base) {
@@ -67,6 +65,7 @@ export namespace Model {
     }
 
     const model_runner = {
+      name: model.name,
       run: async ({ prompt, filename, lora }: Params) => {
         const meta = `${IMAGE.width}_${IMAGE.height}_${model.steps}.png`;
         const out = `${DIR}/images/${model.base}/${filename}_${meta}`;

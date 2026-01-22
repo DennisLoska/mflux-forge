@@ -236,7 +236,7 @@ mflux-forge/
 ### Adding New LoRAs
 
 1. Download LoRA weights
-2. Add configuration to `Config.LORAS` in `config.ts`
+2. Add configuration to the respective diffusion model settings in `config.ts`
 3. Create or modify presets to use the new LoRA
 
 ## Model References

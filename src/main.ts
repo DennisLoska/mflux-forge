@@ -8,24 +8,10 @@ import assert from "node:assert";
 const { logger } = Logger;
 const BENCHMARK = false;
 
-const presets = [
-  Presets.PENCIL_WATERCOLOR,
-  Presets.TECHNICALLY_COLOR,
-  Presets.CLASSICAL_PAINTING,
-  Presets.ANIME,
-  Presets.PIXIMIX,
-  // Presets.PIXEL_ART,
-  // Presets.TECHNICALLY_PIXEL,
-  // Presets.DIGITAL_ART,
-];
-
-const models = [Model.Z_IMAGE_TURBO];
-
 // TODO
 // - model specific lora support -> make presets model centric
 // - model specific presets -> how to organize?
 // - fix upscale.sh -> remove indirection
-// - ffmpeg integration to generate videos
 
 function env_check() {
   assert(
@@ -36,45 +22,63 @@ function env_check() {
 
 async function main() {
   env_check();
+
+  const models = [Model.Z_IMAGE_TURBO];
+
   // Basically: x images per preset * y instructions per preset * z scales per preset * n models
-  for (const preset of presets) {
-    const { name, instructions, lora } = preset;
-    let count = 0;
+  for (const model of models) {
+    Config.setModel(model.name);
+    assert(model.name === Config.current.model?.name, "Invalid current model");
+    logger.info(`Current model: ${model.name}`);
 
-    for (const instruction of instructions) {
-      let prompts;
-      logger.info("Generating image prompts:\n");
+    const presets = [
+      Presets.PENCIL_WATERCOLOR,
+      Presets.TECHNICALLY_COLOR,
+      Presets.CLASSICAL_PAINTING,
+      Presets.ANIME,
+      Presets.PIXIMIX,
+      // Presets.PIXEL_ART,
+      // Presets.TECHNICALLY_PIXEL,
+      // Presets.DIGITAL_ART,
+    ];
 
-      // Not enough RAM for this line :(
-      // const res = await Api.local_llm(instruction);
-      const res = await LLM.opencode.chat(instruction.prompt);
-      if (res === null) continue;
+    for (const preset of presets) {
+      const { name, instructions, lora } = preset;
+      let count = 0;
 
-      const file = Bun.file(
-        `${Config.DIR}/prompts/${instruction.name}_${Config.now}.txt`,
-      );
-      prompts = await file.text();
+      for (const instruction of instructions) {
+        let prompts;
+        logger.info("Generating image prompts:\n");
 
-      logger.info("\nGenerated prompts:\n");
-      logger.info(prompts);
+        // Not enough RAM for this line :(
+        // const res = await Api.local_llm(instruction);
+        const res = await LLM.opencode.chat(instruction.prompt);
+        if (res === null) continue;
 
-      const lines = prompts.split("\n");
+        const file = Bun.file(
+          `${Config.DIR}/prompts/${instruction.name}_${Config.now}.txt`,
+        );
+        prompts = await file.text();
 
-      for (let i = 0; i < lora.scales.length; i++) {
-        for (const line of lines) {
-          logger.info("\nPrompt:\n");
-          logger.info(`${line}\n`);
-          logger.info(
-            `Generating image ${count + 1}/${lora.scales.length * lines.length * instructions.length}\n`,
-          );
+        logger.info("\nGenerated prompts:\n");
+        logger.info(prompts);
 
-          const [filename, prompt] = line.split(".png");
-          if (!(filename && prompt)) {
-            logger.warn("Failed to extract filename - skipping\n");
-            continue;
-          }
+        const lines = prompts.split("\n");
 
-          for (const model of models) {
+        for (let i = 0; i < lora.scales.length; i++) {
+          for (const line of lines) {
+            logger.info("\nPrompt:\n");
+            logger.info(`${line}\n`);
+            logger.info(
+              `Generating image ${count + 1}/${lora.scales.length * lines.length * instructions.length}\n`,
+            );
+
+            const [filename, prompt] = line.split(".png");
+            if (!(filename && prompt)) {
+              logger.warn("Failed to extract filename - skipping\n");
+              continue;
+            }
+
             const scales = lora.scales[i];
             const res = await model.run({
               prompt,
