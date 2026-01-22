@@ -9,7 +9,7 @@ export namespace Config {
   export const IMAGE = {
     width: 1280,
     height: 720,
-    generations: 5,
+    count: 100,
   } as const;
 
   export const now = date;
@@ -18,8 +18,9 @@ export namespace Config {
 
   export const LLM = {
     opencode: {
-      default: "opencode/minimax-m2.1-free",
+      default: "opencode/big-pickle",
       minimax_m2_1_free: "opencode/minimax-m2.1-free",
+      big_pickle: "opencode/big-pickle",
       glm_4_7_free: "opencode/glm-4.7-free",
       grok_code: "opencode/grok-code",
     },

@@ -10,13 +10,13 @@ const BENCHMARK = false;
 
 const presets = [
   Presets.PENCIL_WATERCOLOR,
-  Presets.PIXEL_ART,
-  Presets.PIXIMIX,
-  Presets.ANIME,
-  Presets.TECHNICALLY_PIXEL,
-  Presets.DIGITAL_ART,
-  Presets.CLASSICAL_PAINTING,
   Presets.TECHNICALLY_COLOR,
+  Presets.CLASSICAL_PAINTING,
+  Presets.ANIME,
+  Presets.PIXIMIX,
+  // Presets.PIXEL_ART,
+  // Presets.TECHNICALLY_PIXEL,
+  // Presets.DIGITAL_ART,
 ];
 
 const models = [Model.Z_IMAGE_TURBO];
@@ -50,7 +50,9 @@ async function main() {
       const res = await LLM.opencode.chat(instruction.prompt);
       if (res === null) continue;
 
-      const file = Bun.file(`${Config.DIR}/prompts/${Config.now}.txt`);
+      const file = Bun.file(
+        `${Config.DIR}/prompts/${instruction.name}_${Config.now}.txt`,
+      );
       prompts = await file.text();
 
       logger.info("\nGenerated prompts:\n");

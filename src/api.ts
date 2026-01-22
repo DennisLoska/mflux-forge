@@ -7,7 +7,7 @@ const { logger } = Logger;
 export namespace Api {
   export async function opencode(model: string, instructions: string) {
     try {
-      return Bun.$`opencode run -m ${model} "${instructions}"`;
+      return Bun.$`opencode run -m ${model} --variant max "${instructions}"`;
     } catch (error) {
       logger.error("Error", { error: error?.message });
       return null;

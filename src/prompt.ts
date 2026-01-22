@@ -16,11 +16,12 @@ export namespace Prompt {
   function system(options: {
     style: Style;
     title: string;
+    name: string;
     description: string;
     scenes: string[];
   }) {
     return `
-  Generate ${Config.IMAGE.generations} images of ${options.title} using stable diffusion.
+  Generate ${Config.IMAGE.count} images of ${options.title} using stable diffusion.
 
   FOR ALL PROMPTS ALWAYS:
   ${options.description}
@@ -48,7 +49,7 @@ export namespace Prompt {
   - ~50-250 words tends to be the sweet spot
   - Prefer concrete subjects over abstract descriptions
 
-  Create a file called ${Config.now}.txt in ${Config.DIR}/prompts and save all prompts there.
+  Create a file called ${options.title}_${Config.now}.txt in ${Config.DIR}/prompts and save all prompts there.
 
   Make sure that you only write one prompt per line!
   Prefix each line with the name of the file.
@@ -59,8 +60,8 @@ export namespace Prompt {
   }
 
   export function biblical(style: Style): Instruction {
-    const name = "biblical";
     const title = "epic biblical landscape scenery";
+    const name = "biblical";
 
     const description = `
       - biblical, beige, lush green, middle eastern vibes.
@@ -175,11 +176,15 @@ export namespace Prompt {
       "The Victory over Death: The Lamb, Ultimate Triumph, The Cosmos",
     ];
 
-    return { name, prompt: system({ style, title, description, scenes }) };
+    return {
+      name,
+      prompt: system({ style, title, name, description, scenes }),
+    };
   }
 
   export function epic_nature_landscapes(style: Style): Instruction {
     const title = "epic nature landscapes";
+    const name = "epic_nature_landscapes";
 
     const description = `
     - pure wilderness, vast scale, breathtaking geological formations.
@@ -204,13 +209,13 @@ export namespace Prompt {
     ];
 
     return {
-      name: "epic_nature_landscapes",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function surreal_fractals(style: Style): Instruction {
     const title = "surreal fractal mandala patterns";
+    const name = "surreal_fractals";
 
     const description = `
     - intricate geometry, infinite recursion, psychedelic symmetry.
@@ -235,13 +240,13 @@ export namespace Prompt {
     ];
 
     return {
-      name: "surreal_fractals",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function abstract_expressions(style: Style): Instruction {
     const title = "raw abstract expressionism";
+    const name = "abstract_expressions";
 
     const description = `
     - focus on texture, emotion, and motion rather than form.
@@ -266,13 +271,13 @@ export namespace Prompt {
     ];
 
     return {
-      name: "abstract_expressions",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function universal_archetypes(style: Style): Instruction {
     const title = "universal christian human archetypes";
+    const name = "universal_archetypes";
 
     const description = `
     - iconic, statuesque figures representing fundamental human roles.
@@ -297,13 +302,13 @@ export namespace Prompt {
     ];
 
     return {
-      name: "universal_archetypes",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function jungian_psychology(style: Style): Instruction {
     const title = "jungian psychological landscapes";
+    const name = "jungian_psychology";
 
     const description = `
     - visualization of the collective unconscious and the process of individuation.
@@ -328,13 +333,13 @@ export namespace Prompt {
     ];
 
     return {
-      name: "jungian_psychology",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function dramatic_everyday(style: Style): Instruction {
     const title = "dramatic and emotional everyday life";
+    const name = "dramatic_everyday";
 
     const description = `
     - tragedy, love, war, suffering, redemption
@@ -362,12 +367,12 @@ export namespace Prompt {
     ];
 
     return {
-      name: "dramatic_everyday",
-      prompt: system({ style, title, description, scenes }),
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 
   export function myths_and_legends(style: Style): Instruction {
+    const name = "myths_and_legends";
     const title = "world myths and ancient legends";
 
     const description = `
@@ -393,8 +398,8 @@ export namespace Prompt {
     ];
 
     return {
-      name: "myths_and_legends",
-      prompt: system({ style, title, description, scenes }),
+      name,
+      prompt: system({ style, title, name, description, scenes }),
     };
   }
 }
