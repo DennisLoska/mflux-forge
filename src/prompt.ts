@@ -54,7 +54,7 @@ export namespace Prompt {
   Make sure that you only write one prompt per line!
   Prefix each line with the name of the file.
 
-  Example line: unique_image_name.png My awesome image prompt goes here
+  Example line: unique_descriptive_image_name.png My awesome image prompt goes here
   Make sure that no line is empty!
 `;
   }

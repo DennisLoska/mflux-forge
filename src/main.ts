@@ -4,6 +4,7 @@ import { Logger } from "./logger";
 import { Presets } from "./presets";
 import { LLM } from "./llm";
 import assert from "node:assert";
+import { Api } from "./api";
 
 const { logger } = Logger;
 const BENCHMARK = false;
@@ -50,8 +51,6 @@ async function main() {
         let prompts;
         logger.info("Generating image prompts:\n");
 
-        // Not enough RAM for this line :(
-        // const res = await Api.local_llm(instruction);
         const res = await LLM.opencode.chat(instruction.prompt);
         if (res === null) continue;
 

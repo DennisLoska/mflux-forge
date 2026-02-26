@@ -22,7 +22,7 @@ export namespace Api {
         body: JSON.stringify({
           model,
           input: instructions,
-          temperature: 0.7,
+          temperature: 1.0,
           max_tokens: -1,
           stream: false,
         }),

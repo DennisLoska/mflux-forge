@@ -34,10 +34,22 @@ export namespace Config {
       big_pickle: "opencode/big-pickle",
       glm_4_7_free: "opencode/glm-4.7-free",
       grok_code: "opencode/grok-code",
+      qwen3_vl_4b: "lmstudio/qwen/qwen3-vl-4b",
+      qwen3_vl_8b: "lmstudio/qwen/qwen3-vl-8b",
+      qwen3_vl_30b: "lmstudio/qwen/qwen3-vl-30b",
+      qwen3_next_80b: "lmstudio/qwen/qwen3-next-80b",
+      openai_gpt_oss_20b: "lmstudio/openai/gpt-oss-20b",
+      nvidia_nemotron_3_nano: "lmstudio/nvidia/nemotron-3-nano",
+      glm_4_7_flash: "lmstudio/zai-org/glm-4.7-flash",
     },
     local: {
-      default: "qwen/qwen3-vl-4b",
+      default: "qwen/qwen3-vl-8b",
       qwen3_vl_4b: "qwen/qwen3-vl-4b",
+      qwen3_vl_8b: "qwen/qwen3-vl-8b",
+      qwen3_vl_30b: "qwen/qwen3-vl-30b",
+      qwen3_next_80b: "qwen/qwen3-next-80b",
+      openai_gpt_oss_20b: "openai/gpt-oss-20b",
+      nvidia_nemotron_3_nano: "nvidia/nemotron-3-nano",
     },
   } as const;
 
