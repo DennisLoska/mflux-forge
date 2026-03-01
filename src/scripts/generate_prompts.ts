@@ -24,9 +24,8 @@ async function prompts() {
       logger.info(`Generate prompts for: ${name}`);
       const res = await LLM.opencode.chat(
         instruction.prompt,
-        "lmstudio/openai/gpt-oss-20b",
+        "lmstudio/qwen/qwen3-vl-30b",
       );
-      console.log(res);
       if (res === null) continue;
 
       const file = Bun.file(

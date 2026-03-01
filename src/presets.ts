@@ -59,6 +59,20 @@ export namespace Presets {
     return { name: "benchmark", instructions, lora };
   }
 
+  function watercolor(): Preset {
+    const lora = _no_lora();
+
+    const style = {
+      primary: Styles.WATERCOLOR.name,
+      secondary: "",
+      styles: Styles.WATERCOLOR.styles,
+      texture: Styles.TEXTURE.paper,
+    };
+
+    const instructions = instruction_list(style);
+    return { name: "watercolor", instructions, lora };
+  }
+
   function pencil_watercolor(): Preset {
     const picked = model?.loras?.pencil_sketch;
     const lora = picked ? _lora([picked], Loras.identity(0.7, 2)) : _no_lora();
@@ -157,6 +171,7 @@ export namespace Presets {
   }
 
   export const BENCHMARK = benchmark();
+  export const WATERCOLOR = watercolor();
   export const PENCIL_WATERCOLOR = pencil_watercolor();
   export const ANIME = anime();
   export const ANIMIX = animix();
